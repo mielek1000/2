@@ -1,0 +1,551 @@
+11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+int main(int argc, char **argv)
+{
+    char litera = argv[1][0];
+    int ilosc = atoi(argv[2]);
+
+    char ciag[255];
+    char *wyraz;
+    char pom[] = " ";
+
+    printf("Wprowadz ciag znakow oddzielonych spacja:\n");
+    scanf("%[^\n]", ciag);
+    wyraz = strtok(ciag, pom);
+
+    int i;
+    int licznik = 0;
+
+    while (wyraz != NULL)
+    {
+        for(i = 0; i < strlen(wyraz); i++)
+        {
+            if(isdigit(wyraz[i]))
+            {
+                break;
+            }
+
+            if(wyraz[i] == litera)
+            {
+                licznik++;
+            }
+        }
+        if(licznik == ilosc)
+        {
+            printf("%s\n", wyraz);
+        }
+//        printf("%s\n", wyraz);
+        licznik = 0;
+        wyraz = strtok(NULL, pom);
+    }
+
+    getchar();
+    return 0;
+}
+
+2222222222222222222222222222222222222222222222222222222222222222222222222222222222
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+int main(int argc, char **argv)
+{
+    char ciag[255];
+    char pom[] = " ";
+    char *wyraz;
+
+    printf("Wprowadz ciag znakow:\n");
+    scanf("%[^\n]", ciag);
+
+    wyraz = strtok(ciag , pom);
+    while (wyraz != NULL)
+    {
+        if(strstr(wyraz, argv[1]))
+        {
+            printf("%s\n", wyraz);
+        }
+        wyraz = strtok(NULL, pom);
+    }
+
+    getchar();
+    return 0;
+}
+
+3333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+int main()
+{
+    FILE *plik;
+    char linia[255];
+    char* tmp;
+
+    char* szukaj = "abc";
+    int ilosc = 3;
+
+    int licznik = 0;
+
+    plik = fopen("plik.txt", "r");
+
+    while(fgets(linia, sizeof(linia), plik))
+    {
+        tmp = linia;
+        licznik=0;
+
+        while((tmp = strstr(tmp, szukaj)))
+        {
+            tmp += strlen(szukaj);
+            licznik++;
+        }
+
+        if(licznik == ilosc)
+        {
+            printf("%s", linia);
+        }
+    }
+
+    fclose(plik);
+    getchar();
+    return 0;
+}
+
+444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+int main(int argc, char **argv)
+{
+    FILE *plik;
+    char linia[255];
+    int wiersz = 0;
+
+    plik = fopen(argv[1], "r");
+
+    int i;
+    while (fgets(linia, sizeof(linia), plik))
+    {
+        wiersz++;
+        for(i = 2; i<argc; i+=2)
+        {
+            if(atoi(argv[i]) == wiersz && atoi(argv[i+1]) == strlen(linia)-1)
+            {
+                printf("%s", linia);
+            }
+        }
+    }
+
+    fclose(plik);
+    return 0;
+}
+
+5555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+int main(int argc, char **argv)
+{
+    FILE *plik_we;
+    FILE *plik_wy;
+    char linia[255];
+
+    plik_we=fopen(argv[2],"r");
+    plik_wy=fopen(argv[3],"w");
+
+    int i;
+    int j;
+    int licznik;
+
+    while (fgets(linia, sizeof(linia), plik_we))
+    {
+        licznik = 0;
+        for (i = 0; i < strlen(argv[1]); ++i)
+        {
+            for (j = 0; j < strlen(linia); ++j)
+            {
+                if (linia[j] == argv[1][i])
+                {
+                    licznik = 1;
+                }
+                if (licznik)
+                {
+                    break;
+                }
+            }
+        }
+        if(licznik)
+        {
+            fprintf(plik_wy, "%s", linia);
+        }
+    }
+
+    fclose(plik_we);
+    fclose(plik_wy);
+    getchar();
+    return 0;
+}
+
+66666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+int main(int argc, char **argv)
+{
+    FILE *plik_wy;
+    char* nazwa_pliku = argv[2];
+    char* zakres = argv[1];
+    int min = 0;
+    int max = 0;
+
+    while(*zakres)
+    {
+        if(isdigit(*zakres))
+        {
+            min=strtol(zakres,&zakres,0);
+        }
+        else
+        {
+            zakres++;
+            max = strtol(zakres,&zakres,0);
+        }
+    }
+
+    char ciag[255];
+    char* wyraz;
+    char pom[] = " ";
+    int licznik = 0;
+    int i;
+
+    printf("Podaj ciag znakow:\n");
+    gets(ciag);
+    wyraz = strtok(ciag, pom);
+
+    plik_wy = fopen(nazwa_pliku, "w");
+
+    while(wyraz!=NULL)
+    {
+        for(i = 0; i<strlen(wyraz); i++)
+        {
+            licznik++;
+        }
+        if(licznik>9 && licznik<21)
+        {
+            fprintf(plik_wy, "%s\n", wyraz);
+        }
+        licznik = 0;
+        wyraz = strtok(NULL, pom);
+    }
+
+    fclose(plik_wy);
+    return 0;
+}
+
+7777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+int main()
+{
+    char linia[255];
+    int licznik_enter = 0;
+    int c0,c1,c2,c3,c4,c5,c6,c7,c8,c9;
+    int i;
+
+    while(licznik_enter<3)
+    {
+        printf("Wprowadz ciag znakow:\n");
+        fgets(linia, 255, stdin);
+        if (linia[0] == '\n')
+        {
+            licznik_enter++;
+        }
+        else
+        {
+            c0=0;c1=0;c2=0;c3=0;c4=0;c5=0;c6=0;c7=0;c8=0;c9=0;
+            for (i = 0; i < strlen(linia); ++i)
+            {
+                switch(linia[i])
+                {
+                    case '0': c0++; break;
+                    case '1': c1++; break;
+                    case '2': c2++; break;
+                    case '3': c3++; break;
+                    case '4': c4++; break;
+                    case '5': c5++; break;
+                    case '6': c6++; break;
+                    case '7': c7++; break;
+                    case '8': c8++; break;
+                    case '9': c9++; break;
+                    default: break;
+                }
+            }
+
+            if(c0 != 0) printf("Liczba zer w ciagu znakow: %d\n", c0);
+            if(c1 != 0) printf("Liczba jedynek w ciagu znakow: %d\n", c1);
+            if(c2 != 0) printf("Liczba dwojek w ciagu znakow: %d\n", c2);
+            if(c3 != 0) printf("Liczba trojek w ciagu znakow: %d\n", c3);
+            if(c4 != 0) printf("Liczba czworek w ciagu znakow: %d\n", c4);
+            if(c5 != 0) printf("Liczba piatek w ciagu znakow: %d\n", c5);
+            if(c6 != 0) printf("Liczba szostek w ciagu znakow: %d\n", c6);
+            if(c7 != 0) printf("Liczba siodemek w ciagu znakow: %d\n", c7);
+            if(c8 != 0) printf("Liczba osemek w ciagu znakow: %d\n", c8);
+            if(c9 != 0) printf("Liczba dziewiatek w ciagu znakow: %d\n", c9);
+
+            if((c0==0)&&(c1==0)&&(c2==0)&&(c3==0)&&(c4==0)&&(c5==0)&&(c6==0)&&(c7==0)&&(c8==0)&&(c9==0))
+            {
+                printf("Brak cyfr w podanym ciągu znakow\n");
+            }
+            licznik_enter = 0;
+        }
+    }
+    return 0;
+}
+
+88888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+int main(int argc, char **argv)
+{
+    FILE *plik_wy;
+    char* ciag = argv[1];
+    char liczby[255];
+
+    printf("Wprowadz liczby odzzielone spacja:\n");
+    scanf("%[^\n]", liczby);
+
+    plik_wy = fopen("plik.txt", "w");
+
+    int i, j;
+    int licznik = 0;
+    for (i = 0; i < strlen(liczby); i++)
+    {
+        if(isdigit(liczby[i]))
+        {
+            for (j = 0; j < atoi(&liczby[i]); ++j)
+            {
+                fprintf(plik_wy, "%s", ciag);
+            }
+            fprintf(plik_wy, "%s","\n");
+        }
+    }
+
+    fclose(plik_wy);
+    getchar();
+    return 0;
+}
+
+999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+int main(int argc, char **argv)
+{
+    int dlu = atoi(argv[1]);
+    char linia[255];
+    int i;
+    int kontrola;
+
+    FILE *plik_we = fopen("plik_we.txt", "r");
+    FILE *plik_wy = fopen("plik_wy.txt", "w");
+
+    while(fgets(linia, sizeof(linia), plik_we))
+    {
+        kontrola = 1;
+        for (i = 0; i < strlen(linia)-1; ++i)
+        {
+            printf("%c ", linia[i]);
+            if(!isdigit(linia[i]))
+            {
+
+                kontrola = 0;
+            }
+        }
+        printf("\n");
+
+        if(dlu>=strlen(linia)-1 && kontrola == 1)
+        {
+            fprintf(plik_wy, "%s\n", linia);
+        }
+    }
+
+    fclose(plik_we);
+    fclose(plik_wy);
+    return 0;
+}
+
+101010101010101010101010101010101010101010101010101001010101010101010101010101010101010101010
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+int main()
+{
+    char linia[255];
+    int licznik_blank = 0;
+    int licznik_enter = 0;
+    int licznik_cyfry = 0;
+    int licznik_male_lit = 0;
+    int licznik_duze_lit = 0;
+    int i;
+
+    printf("Wprowadz ciag znakow:\n");
+
+    while(licznik_enter<3)
+    {
+        fgets(linia, 255, stdin);
+        if (linia[0] == '\n')
+        {
+            licznik_enter++;
+            licznik_blank++;
+        }
+        else
+        {
+            printf("Linia: %s\n",linia);
+            for (i = 0; i < strlen(linia); ++i)
+            {
+                if(linia[i] == '\t')
+                {
+                    licznik_blank++;
+                }
+
+                if(linia[i] == '\n')
+                {
+                    licznik_blank++;
+                }
+
+                if(linia[i] == ' ')
+                {
+                    licznik_blank++;
+                }
+
+                if(isdigit(linia[i]))
+                {
+                    licznik_cyfry++;
+                }
+
+                if(islower(linia[i]))
+                {
+                    licznik_male_lit++;
+                }
+
+                if(isupper(linia[i]))
+                {
+                    licznik_duze_lit++;
+                }
+            }
+            licznik_enter = 0;
+        }
+    }
+
+    printf("Znaki biale: %d Cyfry: %d Male litery: %d Duze litery: %d", licznik_blank, licznik_cyfry, licznik_male_lit, 
+    licznik_duze_lit);
+    return 0;
+}
+
+11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+int main()
+{
+    char linia[255];
+    int licznik = 0;
+    int i;
+
+    while(1)
+    {
+        printf("Wprowadz ciag znakow:\n");
+        gets(linia);
+        if(!strcmp(linia, "\0"))
+        {
+            break;
+        }
+
+        for (i = 0; i < strlen(linia); ++i)
+        {
+            if(linia[i]=='a' || linia[i]=='e' || linia[i]=='i' ||
+               linia[i]=='o' || linia[i]=='u' || linia[i]=='A' ||
+               linia[i]=='E' || linia[i]=='I' || linia[i]=='O' ||
+               linia[i]=='U')
+            {
+                licznik++;
+            }
+        }
+
+        if (licznik%2 == 0 && licznik!=0)
+        {
+            printf("%s\n", linia);
+        }
+
+        licznik = 0;
+    }
+
+
+    return 0;
+}
+
+12121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+int main()
+{
+    FILE *plik_we;
+    FILE *plik_wy;
+    char linia[255];
+
+    plik_we = fopen("plik_we.txt", "r");
+    plik_wy = fopen("plik_wy.txt", "w");
+
+    int i;
+    while (fgets(linia, sizeof(linia), plik_we))
+    {
+        for (i = 0; i < strlen(linia); ++i)
+        {
+            if(!isdigit(linia[i]))
+            {
+                linia[i] = ' ';
+            }
+        }
+        fprintf(plik_wy, "%s\n", linia);
+    }
+
+    return 0;
+}
